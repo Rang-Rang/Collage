@@ -82,11 +82,17 @@ public class MoneyChanger {
         if (jumlahTransaksi == 0) {
             System.err.println("Belum ada transaksi");
         } else {
-            System.out.println("\nKonversi Mata Uang: ");
-            System.out.printf("%-10s %-15s %-15s %-15s\n", "ID", "Rupiah", "USD", "Yen");
+            String headerFormat = "| %-8s | %-14s | %-14s | %-14s |%n";
+            String rowFormat = "| %-8d | Rp%-12.2f | $%-12.2f  | \u00a5%-12.2f  |%n";
+            String separator = "+----------+----------------+----------------+----------------+";
+
+            System.out.println(separator);
+            System.out.printf(headerFormat, "ID", "Rupiah", "USD", "Yen");
+            System.out.println(separator);
             for (int i = 0; i < jumlahTransaksi; i++) {
-                System.out.printf("%-10d Rp%-14.2f $%-14.2f ¥%-14.2f\n", ids[i], arrRupiah[i], arrUsd[i], arrYen[i]);
+                System.out.printf(rowFormat, ids[i], arrRupiah[i], arrUsd[i], arrYen[i]);
             }
+            System.out.println(separator);
         }
     }
 
