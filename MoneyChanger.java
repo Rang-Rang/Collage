@@ -3,10 +3,14 @@ import java.util.Scanner;
 
 public class MoneyChanger {
 
+    // scanner global
     static Scanner sc = new Scanner(System.in);
+
+    // uang
     static double rateUSD = 0.000062;
     static double rateYEN = 0.0096;
 
+    // semua variable global, array pun ada
     static int maksimumTransaksi = 100;
     static int[] ids = new int[maksimumTransaksi];
     static double[] arrRupiah = new double[maksimumTransaksi];
@@ -28,6 +32,7 @@ public class MoneyChanger {
 
             opsi = sc.nextInt();
 
+            // hal paling penting
             switch (opsi) {
                 case 1:
                     inputData();
@@ -48,6 +53,7 @@ public class MoneyChanger {
         } while (opsi != 4);
     }
 
+    // input data disini cuy
     static void inputData() {
         if (jumlahTransaksi >= maksimumTransaksi) {
             System.out.println("Batas Transaksi telah terpenuhi. tidak bisa tambah data lagi");
@@ -70,14 +76,17 @@ public class MoneyChanger {
         System.out.println("Data telah ditambahkan");
     }
 
+    // konversi mata uang dollar
     static double convUSD(double rp) {
         return rp * rateUSD;
     }
 
+    // konversi mata uang YEN
     static double convYen(double rp) {
         return rp * rateYEN;
     }
 
+    // lihat semuya data
     static void lihatData() {
         if (jumlahTransaksi == 0) {
             System.err.println("Belum ada transaksi");
@@ -96,6 +105,7 @@ public class MoneyChanger {
         }
     }
 
+    // ngecek uang dollar maksimal
     static void maxUSD() {
         double max = 0;
         for (int i = 0; i < arrUsd.length; i++) {
