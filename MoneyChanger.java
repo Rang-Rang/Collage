@@ -82,17 +82,17 @@ public class MoneyChanger {
         if (jumlahTransaksi == 0) {
             System.err.println("Belum ada transaksi");
         } else {
-            String headerFormat = "| %-8s | %-14s | %-14s | %-14s |%n";
-            String rowFormat = "| %-8d | Rp%-12.2f | $%-12.2f  | \u00a5%-12.2f  |%n";
-            String separator = "+----------+----------------+----------------+----------------+";
+            String bagianHeader = "| %-8s | %-14s | %-14s | %-14s |%n";
+            String isi = "| %-8d | Rp%-12.2f | $%-12.2f  | \u00a5%-12.2f  |%n";
+            String batas = "+----------+----------------+----------------+----------------+";
 
-            System.out.println(separator);
-            System.out.printf(headerFormat, "ID", "Rupiah", "USD", "Yen");
-            System.out.println(separator);
+            System.out.println(batas);
+            System.out.printf(bagianHeader, "ID", "Rupiah", "USD", "Yen");
+            System.out.println(batas);
             for (int i = 0; i < jumlahTransaksi; i++) {
-                System.out.printf(rowFormat, ids[i], arrRupiah[i], arrUsd[i], arrYen[i]);
+                System.out.printf(isi, ids[i], arrRupiah[i], arrUsd[i], arrYen[i]);
             }
-            System.out.println(separator);
+            System.out.println(batas);
         }
     }
 
@@ -103,6 +103,6 @@ public class MoneyChanger {
                 max = arrUsd[i];
             }
         }
-        System.out.printf("Nilai USD Tertinggi: $%.2f\n", max);
+        System.out.printf("\nNilai USD Tertinggi: $%.2f\n", max);
     }
 }
