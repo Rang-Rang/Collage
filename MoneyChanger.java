@@ -2,6 +2,7 @@
 import java.util.Scanner;
 
 public class MoneyChanger {
+
     static Scanner sc = new Scanner(System.in);
     static double rateUSD = 0.000062;
     static double rateYEN = 0.0096;
@@ -14,18 +15,16 @@ public class MoneyChanger {
     static int jumlahTransaksi = 0;
     static int transaksiId = 1;
 
-
-
     public static void main(String[] args) {
 
         int opsi;
-        do{
+        do {
             System.out.println("\nMoney Changer");
             System.out.println("1. Masukkan Data");
             System.out.println("2. Lihat Daftar Mata Uang");
             System.out.println("3. Lihat Nilai USD Tertinggi");
             System.out.println("4. Keluar");
-            System.out.println("Pilih Opsi");
+            System.out.print("Pilih Opsi: ");
 
             opsi = sc.nextInt();
 
@@ -46,8 +45,7 @@ public class MoneyChanger {
                     System.err.println("Pilihan invalid. Silahkan coba lagi");
             }
 
-            
-        }while (opsi != 4);
+        } while (opsi != 4);
     }
 
     static void inputData() {
@@ -59,12 +57,11 @@ public class MoneyChanger {
         int jumInput = sc.nextInt();
 
         for (int i = 0; i < jumInput; i++) {
-            System.out.println("\nData ke-"+(i+1));
+            System.out.println("\nData ke-" + (i + 1));
             System.out.println("Masukkan jumlah Rupiah: ");
             double jumlahRp = sc.nextDouble();
             ids[jumlahTransaksi] = transaksiId++;
             arrRupiah[jumlahTransaksi] = jumlahRp;
-            
 
             arrUsd[jumlahTransaksi] = convUSD(jumlahRp);
             arrYen[jumlahTransaksi] = convYen(jumlahRp);
@@ -73,11 +70,11 @@ public class MoneyChanger {
         System.out.println("Data telah ditambahkan");
     }
 
-    static double convUSD(double rp){
+    static double convUSD(double rp) {
         return rp * rateUSD;
     }
 
-    static double convYen(double rp){
+    static double convYen(double rp) {
         return rp * rateYEN;
     }
 
@@ -93,13 +90,13 @@ public class MoneyChanger {
         }
     }
 
-    static void maxUSD(){
+    static void maxUSD() {
         double max = 0;
         for (int i = 0; i < arrUsd.length; i++) {
-            if(max < arrUsd[i]){
+            if (max < arrUsd[i]) {
                 max = arrUsd[i];
             }
         }
-        System.out.printf("Nilai USD Tertinggi: $%.2f\n",max);
+        System.out.printf("Nilai USD Tertinggi: $%.2f\n", max);
     }
 }
