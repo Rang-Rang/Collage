@@ -58,7 +58,7 @@ public class MoneyChanger {
 
         for (int i = 0; i < jumInput; i++) {
             System.out.println("\nData ke-" + (i + 1));
-            System.out.println("Masukkan jumlah Rupiah: ");
+            System.out.print("Masukkan jumlah uang dalam rupiah, Rp");
             double jumlahRp = sc.nextDouble();
             ids[jumlahTransaksi] = transaksiId++;
             arrRupiah[jumlahTransaksi] = jumlahRp;
