@@ -1,4 +1,3 @@
-
 import java.util.Scanner;
 
 public class MoneyChanger {
@@ -27,12 +26,13 @@ public class MoneyChanger {
             System.out.println("1. Masukkan Data");
             System.out.println("2. Lihat Daftar Mata Uang");
             System.out.println("3. Lihat Nilai USD Tertinggi");
-            System.out.println("4. Keluar");
+            System.out.println("4. Edit Data");
+            System.out.println("5. Hapus Data");
+            System.out.println("6. Keluar");
             System.out.print("Pilih Opsi: ");
 
             opsi = sc.nextInt();
 
-            // hal paling penting
             switch (opsi) {
                 case 1:
                     inputData();
@@ -44,16 +44,21 @@ public class MoneyChanger {
                     maxUSD();
                     break;
                 case 4:
+                    editData();
+                    break;
+                case 5:
+                    hapusData();
+                    break;
+                case 6:
                     System.out.println("Terima kasih telah menggunakan layanan kami!");
                     break;
                 default:
                     System.err.println("Pilihan invalid. Silahkan coba lagi");
             }
 
-        } while (opsi != 4);
+        } while (opsi != 6);
     }
 
-    // input data disini cuy
     static void inputData() {
         if (jumlahTransaksi >= maksimumTransaksi) {
             System.out.println("Batas Transaksi telah terpenuhi. tidak bisa tambah data lagi");
@@ -64,7 +69,7 @@ public class MoneyChanger {
 
         for (int i = 0; i < jumInput; i++) {
             System.out.println("\nData ke-" + (i + 1));
-            System.out.print("Masukkan jumlah uang dalam rupiah, Rp");
+            System.out.print("Masukkan jumlah uang dalam rupiah: Rp");
             double jumlahRp = sc.nextDouble();
             ids[jumlahTransaksi] = transaksiId++;
             arrRupiah[jumlahTransaksi] = jumlahRp;
@@ -72,21 +77,19 @@ public class MoneyChanger {
             arrUsd[jumlahTransaksi] = convUSD(jumlahRp);
             arrYen[jumlahTransaksi] = convYen(jumlahRp);
             jumlahTransaksi++;
+
         }
         System.out.println("Data telah ditambahkan");
     }
 
-    // konversi mata uang dollar
     static double convUSD(double rp) {
         return rp * rateUSD;
     }
 
-    // konversi mata uang YEN
     static double convYen(double rp) {
         return rp * rateYEN;
     }
 
-    // lihat semuya data
     static void lihatData() {
         if (jumlahTransaksi == 0) {
             System.err.println("Belum ada transaksi");
@@ -105,14 +108,49 @@ public class MoneyChanger {
         }
     }
 
-    // ngecek uang dollar maksimal
     static void maxUSD() {
         double max = 0;
-        for (int i = 0; i < arrUsd.length; i++) {
+        for (int i = 0; i < jumlahTransaksi; i++) {
             if (max < arrUsd[i]) {
                 max = arrUsd[i];
             }
         }
         System.out.printf("\nNilai USD Tertinggi: $%.2f\n", max);
+    }
+
+    static void editData() {
+        System.out.print("Masukkan ID transaksi yang ingin diedit: ");
+        int idEdit = sc.nextInt();
+        for (int i = 0; i < jumlahTransaksi; i++) {
+            if (ids[i] == idEdit) {
+                System.out.print("Masukkan jumlah uang baru dalam rupiah: Rp");
+                double jumlahRpBaru = sc.nextDouble();
+                arrRupiah[i] = jumlahRpBaru;
+                arrUsd[i] = convUSD(jumlahRpBaru);
+                arrYen[i] = convYen(jumlahRpBaru);
+                System.out.println("Data berhasil diubah.");
+                return;
+            }
+        }
+        System.err.println("ID tidak ditemukan.");
+    }
+
+    static void hapusData() {
+        System.out.print("Masukkan ID transaksi yang ingin dihapus: ");
+        int idHapus = sc.nextInt();
+        for (int i = 0; i < jumlahTransaksi; i++) {
+            if (ids[i] == idHapus) {
+                for (int j = i; j < jumlahTransaksi - 1; j++) {
+                    ids[j] = ids[j + 1];
+                    arrRupiah[j] = arrRupiah[j + 1];
+                    arrUsd[j] = arrUsd[j + 1];
+                    arrYen[j] = arrYen[j + 1];
+                }
+                jumlahTransaksi--;
+                System.out.println("Data berhasil dihapus.");
+                return;
+            }
+        }
+        System.err.println("ID tidak ditemukan.");
     }
 }
