@@ -4,7 +4,7 @@ public class MoneyChanger {
 
     static Scanner sc = new Scanner(System.in);
 
-    static final int maksimumTransaksi = 100;
+    static int maksimumTransaksi = 100;
     static double[][] transaksiData = new double[maksimumTransaksi][3];
     static int[] ids = new int[maksimumTransaksi];
     static int jumlahTransaksi = 0;
@@ -25,13 +25,27 @@ public class MoneyChanger {
             opsi = sc.nextInt();
 
             switch (opsi) {
-                case 1 -> inputData();
-                case 2 -> lihatData();
-                case 3 -> maxUSD();
-                case 4 -> editData();
-                case 5 -> hapusData();
-                case 6 -> System.out.println("Terima kasih telah menggunakan layanan kami!");
-                default -> System.err.println("Pilihan invalid. Silahkan coba lagi");
+                case 1: 
+                    inputData();
+                    break;
+                case 2:
+                    lihatData();
+                    break;
+                case 3: 
+                    maxUSD();
+                    break;
+                case 4: 
+                    editData();
+                    break;
+                case 5:
+                    hapusData();
+                    break;
+                case 6:
+                    System.out.println("Terima kasih telah menggunakan layanan kami!");
+                    break;
+                default: 
+                    System.err.println("Pilihan invalid. Silahkan coba lagi");
+                    break;
             }
         } while (opsi != 6);
     }
@@ -64,12 +78,12 @@ public class MoneyChanger {
     }
 
     static double convUSD(double rp) {
-        final double rateUSD = 0.000062;
+        double rateUSD = 0.000062;
         return rp * rateUSD;
     }
 
     static double convYen(double rp) {
-        final double rateYEN = 0.0096;
+        double rateYEN = 0.0096;
         return rp * rateYEN;
     }
 
@@ -78,17 +92,14 @@ public class MoneyChanger {
             System.err.println("Belum ada transaksi.");
             return;
         }
-        String bagianHeader = "| %-8s | %-14s | %-14s | %-14s |%n";
-        String isi = "| %-8d | Rp%-12.2f | $%-12.2f  | \u00a5%-12.2f  |%n";
-        String batas = "+----------+----------------+----------------+----------------+";
 
-        System.out.println(batas);
-        System.out.printf(bagianHeader, "ID", "Rupiah", "USD", "Yen");
-        System.out.println(batas);
+        System.out.println("+----------+----------------+----------------+----------------+");
+        System.out.printf("| %-8s | %-14s | %-14s | %-14s |%n", "ID", "Rupiah", "USD", "Yen");
+        System.out.println("+----------+----------------+----------------+----------------+");
         for (int i = 0; i < jumlahTransaksi; i++) {
-            System.out.printf(isi, ids[i], transaksiData[i][0], transaksiData[i][1], transaksiData[i][2]);
+            System.out.printf("| %-8d | Rp%-12.2f | $%-12.2f  | \u00a5%-12.2f  |%n", ids[i], transaksiData[i][0], transaksiData[i][1], transaksiData[i][2]);
         }
-        System.out.println(batas);
+        System.out.println("+----------+----------------+----------------+----------------+");
     }
 
     static void maxUSD() {
