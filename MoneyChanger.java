@@ -2,24 +2,15 @@ import java.util.Scanner;
 
 public class MoneyChanger {
 
-    // scanner global
     static Scanner sc = new Scanner(System.in);
 
-    // uang
-    static double rateUSD = 0.000062;
-    static double rateYEN = 0.0096;
-
-    // semua variable global, array pun ada
-    static int maksimumTransaksi = 100;
+    static final int maksimumTransaksi = 100;
+    static double[][] transaksiData = new double[maksimumTransaksi][3];
     static int[] ids = new int[maksimumTransaksi];
-    static double[] arrRupiah = new double[maksimumTransaksi];
-    static double[] arrUsd = new double[maksimumTransaksi];
-    static double[] arrYen = new double[maksimumTransaksi];
     static int jumlahTransaksi = 0;
     static int transaksiId = 1;
 
     public static void main(String[] args) {
-
         int opsi;
         do {
             System.out.println("\nMoney Changer");
@@ -34,85 +25,81 @@ public class MoneyChanger {
             opsi = sc.nextInt();
 
             switch (opsi) {
-                case 1:
-                    inputData();
-                    break;
-                case 2:
-                    lihatData();
-                    break;
-                case 3:
-                    maxUSD();
-                    break;
-                case 4:
-                    editData();
-                    break;
-                case 5:
-                    hapusData();
-                    break;
-                case 6:
-                    System.out.println("Terima kasih telah menggunakan layanan kami!");
-                    break;
-                default:
-                    System.err.println("Pilihan invalid. Silahkan coba lagi");
+                case 1 -> inputData();
+                case 2 -> lihatData();
+                case 3 -> maxUSD();
+                case 4 -> editData();
+                case 5 -> hapusData();
+                case 6 -> System.out.println("Terima kasih telah menggunakan layanan kami!");
+                default -> System.err.println("Pilihan invalid. Silahkan coba lagi");
             }
-
         } while (opsi != 6);
     }
 
     static void inputData() {
         if (jumlahTransaksi >= maksimumTransaksi) {
-            System.out.println("Batas Transaksi telah terpenuhi. tidak bisa tambah data lagi");
+            System.out.println("Batas Transaksi telah terpenuhi. Tidak bisa tambah data lagi.");
             return;
         }
-        System.out.print("Masukkan jumlah yang diinput: ");
+        System.out.print("Masukkan jumlah data yang ingin diinput: ");
         int jumInput = sc.nextInt();
 
         for (int i = 0; i < jumInput; i++) {
+            if (jumlahTransaksi >= maksimumTransaksi) {
+                System.out.println("Batas Transaksi telah terpenuhi.");
+                break;
+            }
+
             System.out.println("\nData ke-" + (i + 1));
             System.out.print("Masukkan jumlah uang dalam rupiah: Rp");
             double jumlahRp = sc.nextDouble();
+
             ids[jumlahTransaksi] = transaksiId++;
-            arrRupiah[jumlahTransaksi] = jumlahRp;
-
-            arrUsd[jumlahTransaksi] = convUSD(jumlahRp);
-            arrYen[jumlahTransaksi] = convYen(jumlahRp);
+            transaksiData[jumlahTransaksi][0] = jumlahRp;
+            transaksiData[jumlahTransaksi][1] = convUSD(jumlahRp);
+            transaksiData[jumlahTransaksi][2] = convYen(jumlahRp);
             jumlahTransaksi++;
-
         }
-        System.out.println("Data telah ditambahkan");
+        System.out.println("Data telah ditambahkan.");
     }
 
     static double convUSD(double rp) {
+        final double rateUSD = 0.000062;
         return rp * rateUSD;
     }
 
     static double convYen(double rp) {
+        final double rateYEN = 0.0096;
         return rp * rateYEN;
     }
 
     static void lihatData() {
         if (jumlahTransaksi == 0) {
-            System.err.println("Belum ada transaksi");
-        } else {
-            String bagianHeader = "| %-8s | %-14s | %-14s | %-14s |%n";
-            String isi = "| %-8d | Rp%-12.2f | $%-12.2f  | \u00a5%-12.2f  |%n";
-            String batas = "+----------+----------------+----------------+----------------+";
-
-            System.out.println(batas);
-            System.out.printf(bagianHeader, "ID", "Rupiah", "USD", "Yen");
-            System.out.println(batas);
-            for (int i = 0; i < jumlahTransaksi; i++) {
-                System.out.printf(isi, ids[i], arrRupiah[i], arrUsd[i], arrYen[i]);
-            }
-            System.out.println(batas);
+            System.err.println("Belum ada transaksi.");
+            return;
         }
+        String bagianHeader = "| %-8s | %-14s | %-14s | %-14s |%n";
+        String isi = "| %-8d | Rp%-12.2f | $%-12.2f  | \u00a5%-12.2f  |%n";
+        String batas = "+----------+----------------+----------------+----------------+";
+
+        System.out.println(batas);
+        System.out.printf(bagianHeader, "ID", "Rupiah", "USD", "Yen");
+        System.out.println(batas);
+        for (int i = 0; i < jumlahTransaksi; i++) {
+            System.out.printf(isi, ids[i], transaksiData[i][0], transaksiData[i][1], transaksiData[i][2]);
+        }
+        System.out.println(batas);
     }
 
     static void maxUSD() {
-        double max = 0;
-        for (int i = 0; i < jumlahTransaksi; i++) {
-            if (max < arrUsd[i]) {
-                max = arrUsd[i];
+        if (jumlahTransaksi == 0) {
+            System.err.println("Belum ada transaksi.");
+            return;
+        }
+        double max = transaksiData[0][1];
+        for (int i = 1; i < jumlahTransaksi; i++) {
+            if (transaksiData[i][1] > max) {
+                max = transaksiData[i][1];
             }
         }
         System.out.printf("\nNilai USD Tertinggi: $%.2f\n", max);
@@ -125,9 +112,9 @@ public class MoneyChanger {
             if (ids[i] == idEdit) {
                 System.out.print("Masukkan jumlah uang baru dalam rupiah: Rp");
                 double jumlahRpBaru = sc.nextDouble();
-                arrRupiah[i] = jumlahRpBaru;
-                arrUsd[i] = convUSD(jumlahRpBaru);
-                arrYen[i] = convYen(jumlahRpBaru);
+                transaksiData[i][0] = jumlahRpBaru;
+                transaksiData[i][1] = convUSD(jumlahRpBaru);
+                transaksiData[i][2] = convYen(jumlahRpBaru);
                 System.out.println("Data berhasil diubah.");
                 return;
             }
@@ -142,10 +129,10 @@ public class MoneyChanger {
             if (ids[i] == idHapus) {
                 for (int j = i; j < jumlahTransaksi - 1; j++) {
                     ids[j] = ids[j + 1];
-                    arrRupiah[j] = arrRupiah[j + 1];
-                    arrUsd[j] = arrUsd[j + 1];
-                    arrYen[j] = arrYen[j + 1];
+                    transaksiData[j] = transaksiData[j + 1];
                 }
+                ids[jumlahTransaksi - 1] = 0;
+                transaksiData[jumlahTransaksi - 1] = new double[3];
                 jumlahTransaksi--;
                 System.out.println("Data berhasil dihapus.");
                 return;
